@@ -68,6 +68,12 @@ class SignupActivity : AppCompatActivity() {
         binding.signupButton.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "이메일과 비밀번호를 모두 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             MyApplication.auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     binding.etEmail.text.clear()

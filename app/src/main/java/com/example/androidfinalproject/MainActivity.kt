@@ -12,19 +12,25 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.androidfinalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.loginButton.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "아이디와 비밀번호를 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             MyApplication.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){task ->
                     binding.etEmail.text.clear()
-                    binding.etEmail.text.clear()
+                    binding.etPassword.text.clear()
                     if(task.isSuccessful){
                         if(MyApplication.checkAuth()){
                             MyApplication.email = email
@@ -39,7 +45,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
-
 
         binding.signupButton.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)

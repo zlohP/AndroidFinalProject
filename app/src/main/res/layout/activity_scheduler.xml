@@ -3,50 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/pink">
+    android:background="@color/pink"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <Button
-        android:id="@+id/btn_add_schedule"
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+ 일정 추가"
-        android:fontFamily="@font/cutefont"
-        android:textSize="25dp"
-        android:paddingTop="7.5dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:backgroundTint="#FFEB9E" />
+        android:layout_weight="1" />
 
-
-
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:id="@+id/scheduleContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginTop="16dp">
-                <!-- 여기에 아이템들이 추가됨 -->
-            </LinearLayout>
-        </ScrollView>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        app:tabTextColor="@android:color/black"
+        app:tabSelectedTextColor="@android:color/white" />
 
     </LinearLayout>
