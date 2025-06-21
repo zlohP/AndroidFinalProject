@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -52,4 +54,8 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("com.google.firebase:firebase-auth:23.2.1")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }
