@@ -132,4 +132,6 @@ class SettingsFragment : Fragment() {
             else AppCompatDelegate.MODE_NIGHT_NO
         )
     }
+
+
 }

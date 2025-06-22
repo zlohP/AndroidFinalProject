@@ -1,5 +1,6 @@
 package com.example.androidfinalproject
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +16,7 @@ class ScheduleFragment : Fragment() {
     private lateinit var scheduleContainer: LinearLayout
     private lateinit var btnAddSchedule: Button
     private lateinit var logoutButton: Button
+    private lateinit var dbHelper: ScheduleDatabaseHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,8 @@ class ScheduleFragment : Fragment() {
         scheduleContainer = view.findViewById(R.id.scheduleContainer)
         btnAddSchedule = view.findViewById(R.id.btn_add_schedule)
         logoutButton = view.findViewById(R.id.logoutButton)
+        dbHelper = ScheduleDatabaseHelper(requireContext())
+        loadSchedulesFromDatabase()
 
         val settingButton = view.findViewById<ImageButton>(R.id.settingButton)
 
@@ -93,6 +97,7 @@ class ScheduleFragment : Fragment() {
                 val input = editText.text.toString()
                 if (input.isNotBlank()) {
                     addScheduleItem(input)
+                    loadSchedulesFromDatabase()
                 } else {
                     Toast.makeText(requireContext(), "일정을 입력해주세요.", Toast.LENGTH_SHORT).show()
                 }
@@ -102,10 +107,9 @@ class ScheduleFragment : Fragment() {
     }
 
     // 입력된 일정 + 체크박스
-    private fun addScheduleItem(timeText: String) {
-        val prefs = requireContext().getSharedPreferences("AppSettings", android.content.Context.MODE_PRIVATE)
+    private fun addScheduleItem(timeText: String, isChecked: Boolean = false, id: Int = -1) {
+        val prefs = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         val sizePref = prefs.getString("text_size", "medium")
-
         val textSize = when (sizePref) {
             "small" -> 14f
             "medium" -> 20f
@@ -118,30 +122,53 @@ class ScheduleFragment : Fragment() {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(0, 30, 0, 30)
-            }
+            ).apply { setMargins(0, 30, 0, 30) }
+            setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+            isClickable = true
+            isLongClickable = true
         }
 
         val textView = TextView(requireContext()).apply {
             text = timeText
             this.textSize = textSize
             typeface = ResourcesCompat.getFont(requireContext(), R.font.cutefont)
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
-            )
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
         val checkBox = CheckBox(requireContext()).apply {
             buttonTintList = ContextCompat.getColorStateList(requireContext(), R.color.darkPink)
+            this.isChecked = isChecked
+
+            // ✅ 체크 상태 변경 시 DB 업데이트
+            setOnCheckedChangeListener { _, isNowChecked ->
+                if (id != -1) {
+                    updateCheckedInDatabase(id, isNowChecked)
+                }
+            }
+        }
+
+        val actualId = if (id == -1) insertScheduleAndGetId(timeText, isChecked) else id
+        itemLayout.tag = actualId
+
+        itemLayout.setOnLongClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("일정 삭제")
+                .setMessage("이 일정을 삭제하시겠습니까?")
+                .setPositiveButton("삭제") { _, _ ->
+                    val scheduleId = itemLayout.tag as? Int
+                    if (scheduleId != null) deleteScheduleFromDatabase(scheduleId)
+                    scheduleContainer.removeView(itemLayout)
+                }
+                .setNegativeButton("취소", null)
+                .show()
+            true
         }
 
         itemLayout.addView(textView)
         itemLayout.addView(checkBox)
         scheduleContainer.addView(itemLayout)
     }
+
     override fun onResume() {
         super.onResume()
         view?.let { applyBackground(it) }
@@ -152,5 +179,93 @@ class ScheduleFragment : Fragment() {
             applyBackground(requireView())
         }
     }
+
+    private fun addScheduleItemToUI(text: String, textSize: Float) {
+        val itemLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 30, 0, 30)
+            }
+        }
+
+        val textView = TextView(requireContext()).apply {
+            this.text = text
+            this.textSize = textSize
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.cutefont)
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+        }
+
+        val checkBox = CheckBox(requireContext()).apply {
+            buttonTintList = ContextCompat.getColorStateList(requireContext(), R.color.darkPink)
+        }
+
+        itemLayout.addView(textView)
+        itemLayout.addView(checkBox)
+        scheduleContainer.addView(itemLayout)
+    }
+
+    private fun loadSchedulesFromDatabase() {
+        scheduleContainer.removeAllViews()
+
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            ScheduleDatabaseHelper.TABLE_NAME,
+            null, null, null, null, null,
+            "${ScheduleDatabaseHelper.COLUMN_ID} ASC"
+        )
+
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(ScheduleDatabaseHelper.COLUMN_ID))
+            val title = cursor.getString(cursor.getColumnIndexOrThrow(ScheduleDatabaseHelper.COLUMN_TITLE))
+            val checked = cursor.getInt(cursor.getColumnIndexOrThrow(ScheduleDatabaseHelper.COLUMN_CHECKED)) == 1
+            addScheduleItem(title, checked, id)
+        }
+
+        cursor.close()
+        db.close()
+    }
+
+    private fun insertScheduleAndGetId(title: String, checked: Boolean): Int {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put(ScheduleDatabaseHelper.COLUMN_TITLE, title)
+            put(ScheduleDatabaseHelper.COLUMN_CONTENT, "")
+            put(ScheduleDatabaseHelper.COLUMN_DATE, "")
+            put(ScheduleDatabaseHelper.COLUMN_CHECKED, if (checked) 1 else 0)
+        }
+        val id = db.insert(ScheduleDatabaseHelper.TABLE_NAME, null, values)
+        db.close()
+        return id.toInt()
+    }
+
+    private fun deleteScheduleFromDatabase(id: Int) {
+        val db = dbHelper.writableDatabase
+        db.delete(
+            ScheduleDatabaseHelper.TABLE_NAME,
+            "${ScheduleDatabaseHelper.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
+        db.close()
+    }
+
+
+    private fun updateCheckedInDatabase(id: Int, checked: Boolean) {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put(ScheduleDatabaseHelper.COLUMN_CHECKED, if (checked) 1 else 0)
+        }
+        db.update(
+            ScheduleDatabaseHelper.TABLE_NAME,
+            values,
+            "${ScheduleDatabaseHelper.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
+        db.close()
+    }
+
+
 
 }

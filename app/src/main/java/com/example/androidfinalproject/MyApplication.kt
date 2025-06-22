@@ -10,10 +10,12 @@ import androidx.multidex.MultiDexApplication
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MyApplication:MultiDexApplication() {
     companion object{
         lateinit var auth : FirebaseAuth
+        lateinit var db : FirebaseFirestore
         var email: String?= null
 
         fun checkAuth(): Boolean {
@@ -34,6 +36,7 @@ class MyApplication:MultiDexApplication() {
         super.onCreate()
 
         auth = Firebase.auth
+        db = FirebaseFirestore.getInstance()
 
         // 모든 Activity가 생성될 때마다 배경을 바꿔주도록 콜백 등록
         registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
