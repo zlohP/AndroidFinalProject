@@ -20,6 +20,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:hint="오늘의 감정을 공유해 주세요!"
+        android:fontFamily="@font/cutefont"
+        android:textSize="22dp"
         android:gravity="left|top"/>
 
 </LinearLayout>

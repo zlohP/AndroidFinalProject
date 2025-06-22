@@ -44,6 +44,8 @@ class AddActivity : AppCompatActivity() {
                     .add(data)
                     .addOnSuccessListener {
                         Log.d(TAG, "data save OK")
+                        val helper = MyNotificationHelper(this)
+                        helper.showNotification("Firestore", "게시글이 추가되었습니다.")
                         finish()
                     }
                     .addOnFailureListener {
