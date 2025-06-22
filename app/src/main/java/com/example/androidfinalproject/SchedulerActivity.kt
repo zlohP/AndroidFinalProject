@@ -28,7 +28,7 @@ class SchedulerActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
 
-        val tabTitles = listOf("일정", "뉴스", "감정일기")
+        val tabTitles = listOf("일정", "뉴스", "감정일기", "지도")
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             val tabView = LayoutInflater.from(this).inflate(R.layout.custom_tab, null)
