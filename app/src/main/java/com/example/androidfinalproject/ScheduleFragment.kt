@@ -4,9 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -139,10 +142,14 @@ class ScheduleFragment : Fragment() {
             buttonTintList = ContextCompat.getColorStateList(requireContext(), R.color.darkPink)
             this.isChecked = isChecked
 
-            // ✅ 체크 상태 변경 시 DB 업데이트
+            //DB 업데이트 & 애니메이션
             setOnCheckedChangeListener { _, isNowChecked ->
                 if (id != -1) {
                     updateCheckedInDatabase(id, isNowChecked)
+                }
+
+                if (isNowChecked) {
+                    showFeedbackAnimation()
                 }
             }
         }
@@ -266,6 +273,29 @@ class ScheduleFragment : Fragment() {
         db.close()
     }
 
+    private fun showFeedbackAnimation() {
+        val feedbackContainer = view?.findViewById<FrameLayout>(R.id.feedbackContainer) ?: return
+
+        // 초기 설정
+        feedbackContainer.visibility = View.VISIBLE
+        feedbackContainer.alpha = 1f
+        feedbackContainer.scaleX = 1f
+        feedbackContainer.scaleY = 1f
+
+        // Handler로 3초 후에 사라지게 처리
+        Handler(Looper.getMainLooper()).postDelayed({
+            feedbackContainer.animate()
+                .alpha(0f)
+                .setDuration(500)
+                .withEndAction {
+                    feedbackContainer.visibility = View.GONE
+                }
+                .start()
+        }, 2000)
+    }
+    }
 
 
-}
+
+
+

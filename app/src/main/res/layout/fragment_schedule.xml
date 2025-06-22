@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLayout">
+    android:id="@+id/rootLayout"
+    android:background="@android:color/transparent"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,3 +89,38 @@
 
 
 </LinearLayout>
+    <FrameLayout
+        android:id="@+id/feedbackContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/feedbackImage"
+                android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/smile_face"
+            android:contentDescription="웃는 얼굴" />
+
+            <TextView
+                android:id="@+id/feedbackText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="참 잘했어요!"
+                android:textSize="30sp"
+            android:textColor="@color/darkPink"
+            android:fontFamily="@font/cutefont"
+            android:layout_marginTop="12dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
