@@ -6,10 +6,25 @@
     android:id="@+id/rootLayout"
     android:background="@android:color/transparent">
 
+    <Button
+        android:id="@+id/ytb_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="유튜브로 관련 소식 더 알아보기"
+        android:backgroundTint="@color/darkPink"
+        android:textColor="@color/textPrimary"
+        android:fontFamily="@font/cutefont"
+        android:textSize="17dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp" />
+        android:padding="15dp"
+        android:layout_marginTop="50dp"/>
+
 </FrameLayout>
 
