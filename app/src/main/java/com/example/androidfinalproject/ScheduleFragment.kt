@@ -1,5 +1,6 @@
 package com.example.androidfinalproject
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -20,6 +21,18 @@ class ScheduleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+
+        val prefs = requireContext()
+               .getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+           val bg = prefs.getString("background_color", "pink")
+           val colorRes = if (bg == "green")
+                   R.color.appBackgroundGreen
+           else
+               R.color.appBackground
+           // Fragment 루트(view) 배경에 바로 칠해 줍니다
+           view.setBackgroundColor(
+                   ContextCompat.getColor(requireContext(), colorRes)
+                       )
 
         // XML 내 View 참조
         scheduleContainer = view.findViewById(R.id.scheduleContainer)
@@ -50,6 +63,20 @@ class ScheduleFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        applyBackground(view)
+    }
+
+    private fun applyBackground(root: View) {
+        val prefs = requireContext()
+            .getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val bg = prefs.getString("background_color", "pink")
+        val colorRes = if (bg == "green") R.color.appBackgroundGreen
+        else R.color.appBackground
+        root.setBackgroundColor(ContextCompat.getColor(requireContext(), colorRes))
     }
 
     // 사용자에게 입력받는 팝업 띄우기
@@ -114,6 +141,16 @@ class ScheduleFragment : Fragment() {
         itemLayout.addView(textView)
         itemLayout.addView(checkBox)
         scheduleContainer.addView(itemLayout)
+    }
+    override fun onResume() {
+        super.onResume()
+        view?.let { applyBackground(it) }
+    }
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if (menuVisible && view != null) {
+            applyBackground(requireView())
+        }
     }
 
 }

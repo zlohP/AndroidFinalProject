@@ -3,6 +3,7 @@
     <color name="textPrimary">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="appBackground">#FDE8E5</color>
+    <color name="appBackgroundGreen">#E8F5E9</color>
     <color name="darkPink">#FFBBBB</color>
     <color name="gray">#D9D9D9</color>
     <color name="darkGray">#9E9E9E</color>

@@ -1,7 +1,9 @@
 package com.example.androidfinalproject
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                     binding.etPassword.text.clear()
                     if(task.isSuccessful){
                         if(MyApplication.checkAuth()){
+
                             MyApplication.email = email
                             val intent = Intent(this, SchedulerActivity::class.java)
                             startActivity(intent)
@@ -54,12 +57,3 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-//if(MyApplication.checkAuth()){
- //   Toast.makeText(baseContext, "xp", Toast.LENGTH_SHORT).show()
- //   val intent = Intent(this, SchedulerActivity::class.java)
- //   startActivity(intent)
-  //  finish()
-//}else{
-    //로그인 안 되어있으면
-    //val intent = Intent(this, MainActivity::class.java)
-    //startActivity(intent)

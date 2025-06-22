@@ -2,113 +2,144 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appBackground"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
     <TextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="느린 하루"
-        android:fontFamily="@font/cutefont"
-        android:textSize="75dp"
-        android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="150dp" />
+        android:fontFamily="@font/cutefont"
+        android:paddingTop="150dp"
+        android:text="느린 하루"
+        android:textSize="75dp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
+        android:background="@drawable/rounded_background"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="설정"
-            android:fontFamily="@font/cutefont"
-            android:textSize="35dp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="25dp"
-            />
-         <Switch
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/cutefont"
+            android:text="설정"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <Switch
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/cutefont"
             android:text="다크 모드 "
-             android:fontFamily="@font/cutefont"
-             android:textSize="25dp"
-             android:layout_marginLeft="25dp"
-             android:layout_marginTop="25dp"
-             android:textStyle="bold"/>
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="일정(스케줄) 글자 크기"
-            android:fontFamily="@font/cutefont"
-            android:textSize="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="25dp"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/cutefont"
+            android:text="일정(스케줄) 글자 크기"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/textSizeGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="25dp">
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/textSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="작게"
                 android:fontFamily="@font/cutefont"
-                android:textSize="20dp"/>
+                android:text="작게"
+                android:textSize="20dp" />
 
             <RadioButton
                 android:id="@+id/textMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="보통"
                 android:fontFamily="@font/cutefont"
-                android:textSize="20dp"/>
+                android:text="보통"
+                android:textSize="20dp" />
 
             <RadioButton
                 android:id="@+id/textLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="크게"
                 android:fontFamily="@font/cutefont"
-                android:textSize="20dp"/>
+                android:text="크게"
+                android:textSize="20dp" />
         </RadioGroup>
 
-        <TextView
+        <Switch
+            android:id="@+id/switch_auto_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비밀번호"
-            android:fontFamily="@font/cutefont"
-            android:textSize="25dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/cutefont"
+            android:text="자동 로그인 "
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비밀번호"
-            android:fontFamily="@font/cutefont"
-            android:textSize="25dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/cutefont"
+            android:text="배경 색상"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
+        <RadioGroup
+            android:id="@+id/bgColorGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp">
+
+            <RadioButton
+                android:id="@+id/radioBgPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="분홍"
+                android:fontFamily="@font/cutefont"
+                android:textSize="20dp"/>
+
+            <RadioButton
+                android:id="@+id/radioBgGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="연두"
+                android:fontFamily="@font/cutefont"
+                android:textSize="20dp"/>
+
+        </RadioGroup>
 
 
     </LinearLayout>
@@ -122,14 +153,14 @@
             android:id="@+id/confirmButton"
             android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/darkPink"
-            android:text="완료"
-            android:textColor="@color/textPrimary"
-            android:fontFamily="@font/cutefont"
-            android:textSize="25dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="28dp"/>
+            android:layout_marginRight="28dp"
+            android:backgroundTint="@color/darkPink"
+            android:fontFamily="@font/cutefont"
+            android:text="완료"
+            android:textColor="@color/textPrimary"
+            android:textSize="25dp" />
 
     </RelativeLayout>
 

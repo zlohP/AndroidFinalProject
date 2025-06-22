@@ -11,10 +11,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.Switch
+import androidx.core.content.ContextCompat
 
 class SettingsFragment : Fragment() {
 
     private lateinit var switchDarkMode: Switch
+    private lateinit var switchAutoLogin: Switch
+    private lateinit var bgColorGroup: RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +29,44 @@ class SettingsFragment : Fragment() {
 
         // SharedPreferences 가져오기
         val sharedPref = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        // 1) 뷰 바인딩
+        val bgStored = sharedPref.getString("background_color", "pink")
+        val initColorRes = if (bgStored == "green")
+            R.color.appBackgroundGreen
+        else
+            R.color.appBackground
+        view.setBackgroundColor(
+            ContextCompat.getColor(requireContext(), initColorRes)
+        )
+        bgColorGroup = view.findViewById(R.id.bgColorGroup)
+
+        // 2) 저장된 값 불러와서 초기 선택
+        when (sharedPref.getString("background_color", "pink")) {
+            "pink"  -> bgColorGroup.check(R.id.radioBgPink)
+            "green" -> bgColorGroup.check(R.id.radioBgGreen)
+        }
+
+        // 3) 사용자가 바꿀 때마다 저장 & 즉시 적용
+        bgColorGroup.setOnCheckedChangeListener { _, checkedId ->
+            val selected = when (checkedId) {
+                R.id.radioBgPink  -> "pink"
+                R.id.radioBgGreen -> "green"
+                else              -> "pink"
+            }
+            sharedPref.edit()
+                .putString("background_color", selected)
+                .apply()
+
+            // 배경 바로 반영 (Fragment 루트뷰)
+            val colorRes = if (selected == "green")
+                R.color.appBackgroundGreen
+            else
+                R.color.appBackground
+            view.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), colorRes)
+            )
+        }
+        // ─────────── 추가 끝 ───────────
         val isDarkMode = sharedPref.getBoolean("dark_mode", false)
         switchDarkMode.isChecked = isDarkMode
 
@@ -39,6 +80,17 @@ class SettingsFragment : Fragment() {
             } catch (e: Exception) {
                 // 가벼운 예외 무시
             }
+        }
+
+        //자동로그인
+        switchAutoLogin = view.findViewById(R.id.switch_auto_login)
+        val isAutoLogin = sharedPref.getBoolean("auto_login_enabled", false)
+        switchAutoLogin.isChecked = isAutoLogin
+        switchAutoLogin.setOnCheckedChangeListener { _, isChecked ->
+            sharedPref.edit()
+                .putBoolean("auto_login_enabled", isChecked)
+                .apply()
+
         }
 
         val prefs = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
@@ -64,8 +116,12 @@ class SettingsFragment : Fragment() {
 
         val confirmButton = view.findViewById<Button>(R.id.confirmButton)
         confirmButton.setOnClickListener {
-            parentFragmentManager.popBackStack()  // 설정창 닫기
+            parentFragmentManager.popBackStack()
+            requireActivity().recreate()// 설정창 닫기
         }
+
+        //배경색
+
 
         return view
     }
