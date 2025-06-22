@@ -74,8 +74,18 @@ class ScheduleFragment : Fragment() {
             .show()
     }
 
-    // 입력된 일정 + 체크박스 UI 추가
+    // 입력된 일정 + 체크박스
     private fun addScheduleItem(timeText: String) {
+        val prefs = requireContext().getSharedPreferences("AppSettings", android.content.Context.MODE_PRIVATE)
+        val sizePref = prefs.getString("text_size", "medium")
+
+        val textSize = when (sizePref) {
+            "small" -> 14f
+            "medium" -> 20f
+            "large" -> 26f
+            else -> 20f
+        }
+
         val itemLayout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
@@ -88,7 +98,7 @@ class ScheduleFragment : Fragment() {
 
         val textView = TextView(requireContext()).apply {
             text = timeText
-            textSize = 25f
+            this.textSize = textSize
             typeface = ResourcesCompat.getFont(requireContext(), R.font.cutefont)
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -105,4 +115,5 @@ class ScheduleFragment : Fragment() {
         itemLayout.addView(checkBox)
         scheduleContainer.addView(itemLayout)
     }
+
 }

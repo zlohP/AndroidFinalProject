@@ -42,22 +42,54 @@
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="다크 모드 사용하기"
+            android:text="다크 모드 "
              android:fontFamily="@font/cutefont"
              android:textSize="25dp"
              android:layout_marginLeft="25dp"
              android:layout_marginTop="25dp"
-
-             />
-
+             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비밀번호"
+            android:text="일정(스케줄) 글자 크기"
             android:fontFamily="@font/cutefont"
             android:textSize="25dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="25dp"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:id="@+id/textSizeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp">
+
+            <RadioButton
+                android:id="@+id/textSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작게"
+                android:fontFamily="@font/cutefont"
+                android:textSize="20dp"/>
+
+            <RadioButton
+                android:id="@+id/textMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="보통"
+                android:fontFamily="@font/cutefont"
+                android:textSize="20dp"/>
+
+            <RadioButton
+                android:id="@+id/textLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="크게"
+                android:fontFamily="@font/cutefont"
+                android:textSize="20dp"/>
+        </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,23 +117,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <Button
-            android:id="@+id/signupButton"
+            android:id="@+id/confirmButton"
             android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/darkPink"
-            android:text="회원가입"
-            android:textColor="@color/textPrimary"
-            android:fontFamily="@font/cutefont"
-            android:textSize="25dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="10dp"/>
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/darkPink"
-            android:text="로그인"
+            android:text="완료"
             android:textColor="@color/textPrimary"
             android:fontFamily="@font/cutefont"
             android:textSize="25dp"

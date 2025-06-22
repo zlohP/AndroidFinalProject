@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioGroup
 import android.widget.Switch
 
 class SettingsFragment : Fragment() {
@@ -38,6 +40,33 @@ class SettingsFragment : Fragment() {
                 // 가벼운 예외 무시
             }
         }
+
+        val prefs = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val textSizeGroup = view.findViewById<RadioGroup>(R.id.textSizeGroup)
+
+        // 저장된 값 불러와서 라디오 선택 상태 반영
+        when (prefs.getString("text_size", "medium")) {
+            "small" -> textSizeGroup.check(R.id.textSmall)
+            "medium" -> textSizeGroup.check(R.id.textMedium)
+            "large" -> textSizeGroup.check(R.id.textLarge)
+        }
+
+        // 사용자가 선택했을 때 SharedPreferences에 저장
+        textSizeGroup.setOnCheckedChangeListener { _, checkedId ->
+            val size = when (checkedId) {
+                R.id.textSmall -> "small"
+                R.id.textMedium -> "medium"
+                R.id.textLarge -> "large"
+                else -> "medium"
+            }
+            prefs.edit().putString("text_size", size).apply()
+        }
+
+        val confirmButton = view.findViewById<Button>(R.id.confirmButton)
+        confirmButton.setOnClickListener {
+            parentFragmentManager.popBackStack()  // 설정창 닫기
+        }
+
         return view
     }
 
