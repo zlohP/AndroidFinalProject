@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
+import kotlinx.coroutines.CancellationException
 
 class NewsFragment : Fragment() {
 
@@ -62,6 +63,7 @@ class NewsFragment : Fragment() {
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
+                if (e is CancellationException) return@launch
                 Log.e("뉴스응답", "예외 발생", e)
                 Toast.makeText(requireContext(), "예외 발생: ${e.message}", Toast.LENGTH_LONG).show()
             }

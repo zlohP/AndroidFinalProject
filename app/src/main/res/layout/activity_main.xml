@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
+    android:background="@color/appBackground"
     android:orientation="vertical"
     tools:context=".MainActivity">
     <TextView
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/darkPink"
             android:text="회원가입"
-            android:textColor="@color/black"
+            android:textColor="@color/textPrimary"
             android:fontFamily="@font/cutefont"
             android:textSize="25dp"
             android:layout_marginLeft="28dp"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/darkPink"
             android:text="로그인"
-            android:textColor="@color/black"
+            android:textColor="@color/textPrimary"
             android:fontFamily="@font/cutefont"
             android:textSize="25dp"
             android:layout_alignParentRight="true"

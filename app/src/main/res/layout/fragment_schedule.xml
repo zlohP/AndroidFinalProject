@@ -3,22 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/pink"
+    android:background="@color/appBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
+        <ImageButton
             android:id="@+id/settingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="설정"
-            android:fontFamily="@font/cutefont"
-            android:textSize="20dp"
+            android:src="@drawable/ic_settings"
             android:background="@android:color/transparent"
-            android:textColor="@color/darkPink"/>
+            android:contentDescription="설정 아이콘"
+            app:tint="@color/darkPink"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -50,7 +52,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:backgroundTint="#FFEB9E" />
 
 

@@ -4,6 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textSize="20dp"
-    android:textColor="@color/black"
+    android:textColor="@color/textPrimary"
     android:fontFamily="@font/cutefont"
     android:gravity="center_horizontal"/>

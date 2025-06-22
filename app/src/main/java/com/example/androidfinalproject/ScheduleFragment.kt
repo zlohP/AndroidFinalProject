@@ -26,6 +26,15 @@ class ScheduleFragment : Fragment() {
         btnAddSchedule = view.findViewById(R.id.btn_add_schedule)
         logoutButton = view.findViewById(R.id.logoutButton)
 
+        val settingButton = view.findViewById<ImageButton>(R.id.settingButton)
+
+        //설정 버튼
+        settingButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(android.R.id.content, SettingsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
         // 로그아웃 버튼
         logoutButton.setOnClickListener {
             MyApplication.auth.signOut()
@@ -33,6 +42,7 @@ class ScheduleFragment : Fragment() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
+
 
         // 일정 추가 버튼
         btnAddSchedule.setOnClickListener {

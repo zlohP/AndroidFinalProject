@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:layout_marginBottom="8dp"
-    android:background="@color/pink"
+    android:background="@color/appBackground"
     android:orientation="vertical">
 
     <TextView
@@ -14,6 +14,6 @@
         android:text="뉴스 제목"
         android:textSize="18dp"
         android:padding="18dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:background="@color/white"/>
 </LinearLayout>
